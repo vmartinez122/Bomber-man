@@ -90,31 +90,40 @@ public class Main {
                     System.out.println("Coordenada X: ");
                     if (input.hasNextInt()) {
                         coordX = input.nextInt();
-                        if (coordX > 0&&coordX<width) {
+                        if (coordX > 1&&coordX<width) {
+                            --coordX; // Le restamos uno al valor, para que corresponda con su posición en el array
                             input.nextLine(); // Limpiamos el búfer
                             break;
                         }
                     }
-                    System.out.println(ANSI_RED + "Error. Introduce un número entre 0 y "+width +"."+ANSI_RESET);
+                    System.out.println(ANSI_RED + "Error. Introduce un número entre 1 y "+width +"."+ANSI_RESET);
                     input.nextLine();//Limpiamos el búfer
                 } while (true);
 
                 // Pedimos la coordenada Y
                 do { // Utilizamos un bucle para comprobar el formato del valor introducido por el usuario
-                    System.out.println("Coordenada Y: ");
-                    System.out.print(coordX+", ");
+                    System.out.println("Coordenada Y:");
+                    System.out.print(coordX+",");
                     if (input.hasNextInt()) {
                         coordY = input.nextInt();
-                        if (coordY > 0&&coordY<height) {
+                        if (coordY > 1&&coordY<height) {
+                            --coordY; // Le restamos uno al valor, para que corresponda con su posición en el array
                             input.nextLine(); // Limpiamos el búfer
                             break;
                         }
                     }
-                    System.out.println(ANSI_RED + "Error. Introduce un número entre 0 y "+width +"."+ANSI_RESET);
+                    System.out.println(ANSI_RED + "Error. Introduce un número entre 1 y "+height +"."+ANSI_RESET);
                     input.nextLine();//Limpiamos el búfer
                 } while (true);
 
                 // Explosión de la bomba
+                for (int row=0; row < terrain.length;++row) {
+                    for (int col=0; col<terrain[0].length; ++col) {
+                        if(row==coordX||col==coordY){
+                            terrain[row][col]= 0;
+                        }
+                    }
+                }
 
                 break;
             case 1: // Mostrar matriz
