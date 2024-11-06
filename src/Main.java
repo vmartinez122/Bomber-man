@@ -18,11 +18,13 @@ public class Main {
         final String ANSI_GREEN = "\u001B[32m";
         // Declaración de variables
         boolean end = false;
-        int height;
-        int width;
-        int coordX;
-        int coordY;
-        int score;
+        int height; // Altura terreno
+        int width; // Ancho terreno
+        int coordX; // Posición x de la bomba
+        int coordY; // Posición y de la bomba
+        int action; // Int que utilizaremos para navegar el menú
+        int score; // Puntuación de las explosiones
+
 
         // Generar terreno de juego
 
@@ -36,7 +38,7 @@ public class Main {
                     break; // El bucle se repetirá hasta que el valor introducido sea correcto
                 }
             }
-            System.out.println(ANSI_RED + "Error. Introduce un número mayor a 0" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Error. Introduce un número mayor a 0" + ANSI_RESET); // Mensaje de error
             input.nextLine(); // Limpiamos el búfer
         } while (true);
 
@@ -53,32 +55,29 @@ public class Main {
             input.nextLine();//Limpiamos el búfer
         } while (true);
 
-        // Creamos un array con los valores determinados por el usuario
+        // Creamos un array con las dimensiones determinadas por el usuario
         int[][] terrain = new int[height][width];
-
-
+        // Usamos dos bucles for para generar los valores dentro del array2D
         for (int row=0; row < terrain.length;++row) {
             for (int col=0; col<terrain[0].length; ++col) {
                 terrain[row][col] = rand.nextInt(1, 9+1);
-                System.out.print(terrain[row][col] + " ");
+                //System.out.print(terrain[row][col] + " "); //Muestra el array una vez generado
             }
-            System.out.println();
+            //System.out.println();
         }
 
-        while (!end) {
+        while (!end) { // Bucle principal del juego, finalizará cuando end tenga valor true
             // Menú de acciones
-            int action;
-            do { // Utilizamos un bucle de
+            do { // Utilizamos un bucle para comprobar el formato del valor introducido por el usuario, si es inválido, mostramos el menú
                 System.out.println(""" 
-                                ---------
+                                
                                 [2] Poner bomba
                                 [1] Mostrar matriz
                                 [0] Salir
-                                ---------
                                 """);
                 if (input.hasNextInt()) {
                     action = input.nextInt();
-                    if (action >= 0 && action <= 2) {
+                    if (action >= 0 && action <= 2) { // Si el valor está dentro del rango del menú
                         input.nextLine(); // Limpiamos el búfer
                         break;
                     }
@@ -86,7 +85,7 @@ public class Main {
                 System.out.println(ANSI_RED + "Error. Introduce un número entre 2-0" + ANSI_RESET);
                 input.nextLine();//Limpiamos el búfer
             } while (true);
-            switch (action) {
+            switch (action) { //Usamos la variable action, que hemos pedido al usuario para navegar por un condicional switch
                 case 2: // Poner bomba
                     // Pedimos la coordenada X
                     do { // Utilizamos un bucle para comprobar el formato del valor introducido por el usuario
@@ -122,16 +121,22 @@ public class Main {
                     } while (true);
 
                     // Explosión de la bomba
-                    score = 0;
-                    for (int row=0; row < terrain.length;++row) {
+                    score = 0; // Reiniciamos el valor de la puntuación cada vez que ponemos una nueva bomba
+                    end = true; // Asignamos el valor true a la condición de salida del bucle, si no se actualiza, el programa acabará después de este bucle
+                    //Utilzaremos un bucle para recorrer el array
+                    for (int row=0; row < terrain.length;++row) { // Usamos dos bucles for para recorrer el array 2D
                         for (int col=0; col<terrain[0].length; ++col) {
+                            // Si el valor de la columna o la fila es igual a su coordenada correspondiente, cambiaremos ese valor a 0
                             if(col==coordX||row==coordY){
-                                score += terrain[row][col];
+                                score += terrain[row][col]; //Sumamos el valor de la posición a la puntuación final
                                 terrain[row][col]= 0;
+                            }
+                            if(terrain[row][col]!=0){ //Si se encuentra un número con valor distinto a 0 en el array, aún quedan celdas por destruir, por lo tanto el programa continúa
+                                end = false;
                             }
                         }
                     }
-                    System.out.println("Valor explosión:"+score);
+                    System.out.println("Valor explosión:"+score); //Imprime valor de la explosión
 
                     break;
                 case 1: // Mostrar matriz
@@ -148,7 +153,7 @@ public class Main {
                     }
                     break;
                 case 0: // Salir del programa
-                    end = true;
+                    end = true; // Actualiza la varible que interrumpe el bucle principal
                     break;
                 default:
                     System.out.println(ANSI_RED + "Error. Acción inválida" + ANSI_RESET);
