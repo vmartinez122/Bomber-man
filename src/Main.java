@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -13,9 +14,10 @@ public class Main {
         Scanner input = new Scanner(System.in);
         Random rand  = new Random();
         // Variables de formato de texto
-        final String ANSI_RED = "\u001B[31m";
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_GREEN = "\u001B[32m";
+        final String ANSI_RED = "\u001B[31m"; // Color rojo
+        final String ANSI_GREEN = "\u001B[32m"; // Color verde
+        final String ANSI_RESET = "\u001B[0m";// Devolver color predeterminado
+
         // Declaración de variables
         boolean end = false;
         int height; // Altura terreno
@@ -24,6 +26,7 @@ public class Main {
         int coordY; // Posición y de la bomba
         int action; // Int que utilizaremos para navegar el menú
         int score; // Puntuación de las explosiones
+        ArrayList<Integer> Ranking = new ArrayList<>();
 
 
         // Generar terreno de juego
@@ -70,22 +73,33 @@ public class Main {
             // Menú de acciones
             do { // Utilizamos un bucle para comprobar el formato del valor introducido por el usuario, si es inválido, mostramos el menú
                 System.out.println(""" 
-                                
+                                [3] Ránking
                                 [2] Poner bomba
                                 [1] Mostrar matriz
                                 [0] Salir
                                 """);
                 if (input.hasNextInt()) {
                     action = input.nextInt();
-                    if (action >= 0 && action <= 2) { // Si el valor está dentro del rango del menú
+                    if (action >= 0 && action <= 3) { // Si el valor está dentro del rango del menú
                         input.nextLine(); // Limpiamos el búfer
                         break;
                     }
                 }
-                System.out.println(ANSI_RED + "Error. Introduce un número entre 2-0" + ANSI_RESET);
+                System.out.println(ANSI_RED + "Error. Introduce una opción del menú [3 - 0]" + ANSI_RESET);
                 input.nextLine();//Limpiamos el búfer
             } while (true);
             switch (action) { //Usamos la variable action, que hemos pedido al usuario para navegar por un condicional switch
+                case 3: //Ránking, EXTRA
+                    if (Ranking.isEmpty()){ // Validamos que haya algún valor a mostrar
+                        System.out.println("No ha habido ninguna explosión.");
+                    }else {
+                        System.out.println("Puntuación:");
+                        //Usamos un bucle for para mostrar las puntuaciones almacenadas en el ArrayList
+                        for (int num = 0; num < Ranking.size(); ++num) {
+                            System.out.println((num+1) + ". " + Ranking.get(num));
+                        }
+                    }
+                    break;
                 case 2: // Poner bomba
                     // Pedimos la coordenada X
                     do { // Utilizamos un bucle para comprobar el formato del valor introducido por el usuario
@@ -136,6 +150,7 @@ public class Main {
                             }
                         }
                     }
+                    Ranking.add(score); // Añadimos la puntuación al ránking
                     System.out.println("Valor explosión:"+score); //Imprime valor de la explosión
 
                     break;
