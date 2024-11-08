@@ -8,7 +8,7 @@ import java.util.Scanner;
     le indicaremos que este valor es incorrecto y le volveremos a pedir la información.
 */
 
-public class Main {
+public class MartinezVictorEjercicio1 {
     public static void main(String[] args) {
         // Inicialización de clases
         Scanner input = new Scanner(System.in);
