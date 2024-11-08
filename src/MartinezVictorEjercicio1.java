@@ -16,57 +16,66 @@ public class MartinezVictorEjercicio1 {
         // Variables de formato de texto
         final String ANSI_RED = "\u001B[31m"; // Color rojo
         final String ANSI_GREEN = "\u001B[32m"; // Color verde
+        final String ANSI_YELLOW = "\u001B[33m"; // Color amarillo
+
         final String ANSI_RESET = "\u001B[0m";// Devolver color predeterminado
 
         // Declaración de variables
-        boolean end = false;
-        int height; // Altura terreno
+        final int MIN_VALUE = 1; // Valor mínimo de las casillas
+        final int MAX_VALUE = 9; // Valor máximo de las casillas
+        int[][] terrain; //Array mapa de juego
+        boolean end = false; // Condición de salida de bucle de juego
         int width; // Ancho terreno
+        int height; // Altura terreno
+        // He considerado que el terreno donde jugaremos la partida ha de tener ciertas limitaciones en caso de que el jugador quiera acabar la partida
+        // si tenemos un terreno de juego demasiado grande, va a ser difícil de representar por consola y para el jugador de calcular las coordenadas
+        // las dimensiones 20x15, crean un cuadrado de tamaño considerable por consola, que necesitará un mínimo de 15 bombas para destruir por completo
+        final int MAX_WIDTH = 20; // Ancho máximo terreno
+        final int MAX_HEIGHT = 15; // Altura máxima terreno
         int coordX; // Posición x de la bomba
         int coordY; // Posición y de la bomba
         int action; // Int que utilizaremos para navegar el menú
         int score; // Puntuación de las explosiones
-        ArrayList<Integer> Ranking = new ArrayList<>();
+        ArrayList<Integer> Ranking = new ArrayList<>(); // ArrayList para sistema de explosiones
 
 
         // Generar terreno de juego
 
         // Solicitar 2 números para determinar las dimensiones del terreno de juego
-        System.out.println("Ancho del terreno de juego:");
+        System.out.println("Ancho del terreno de juego (máx."+MAX_WIDTH+"):");
         do { // Utilizamos un bucle do-while para verificar que el valor introducido es un entero mayor que 0
             if (input.hasNextInt()) { // Necesitamos verificar que el valor sea entero antes de asignarlo a la variable
                 width = input.nextInt();
-                if (width > 0) { // El número debe ser mayor que 0 para poder generar el array
+                if (width > 0&&width<=MAX_WIDTH) { // El número debe ser mayor que 0 para poder generar el array
                     input.nextLine(); // Limpiamos el búfer
                     break; // El bucle se repetirá hasta que el valor introducido sea correcto
                 }
             }
-            System.out.println(ANSI_RED + "Error. Introduce un número mayor a 0" + ANSI_RESET); // Mensaje de error
+            System.out.println(ANSI_RED + "Error. Introduce un número mayor a 0, tamaño máximo: "+MAX_WIDTH+ANSI_RESET); // Mensaje de error
             input.nextLine(); // Limpiamos el búfer
         } while (true);
 
-        System.out.println("Altura del terreno de juego:");
+        System.out.println("Altura del terreno de juego (máx."+MAX_HEIGHT+"):");
         do { // Utilizamos el mismo bucle que para width, para comprobar que el valor introducido por el usuario sea correcto
             if (input.hasNextInt()) {
                 height = input.nextInt();
-                if (height > 0) {
+                if (height > 0&&height<=MAX_HEIGHT) {
                     input.nextLine(); // Limpiamos el búfer
                     break;
                 }
             }
-            System.out.println(ANSI_RED + "Error. Introduce un número mayor a 0" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Error. Introduce un número mayor a 0, tamaño máximo: "+MAX_HEIGHT+ANSI_RESET);
             input.nextLine();//Limpiamos el búfer
         } while (true);
 
         // Creamos un array con las dimensiones determinadas por el usuario
-        int[][] terrain = new int[height][width];
+        terrain = new int[height][width];
         // Usamos dos bucles for para generar los valores dentro del array2D
         for (int row=0; row < terrain.length;++row) {
             for (int col=0; col<terrain[0].length; ++col) {
-                terrain[row][col] = rand.nextInt(1, 9+1);
-                //System.out.print(terrain[row][col] + " "); //Muestra el array una vez generado
+                // La clase random, contiene una función la cual devuelve un entero aleatorio entre un valor mínimo (incluido) y un valor máximo (no incluido)
+                terrain[row][col] = rand.nextInt(MIN_VALUE, MAX_VALUE+1);
             }
-            //System.out.println();
         }
 
         while (!end) { // Bucle principal del juego, finalizará cuando end tenga valor true
@@ -93,10 +102,10 @@ public class MartinezVictorEjercicio1 {
                     if (Ranking.isEmpty()){ // Validamos que haya algún valor a mostrar
                         System.out.println("No ha habido ninguna explosión.");
                     }else {
-                        System.out.println("Puntuación:");
+                        System.out.println(ANSI_YELLOW+"Puntuación:"+ANSI_RESET);
                         //Usamos un bucle for para mostrar las puntuaciones almacenadas en el ArrayList
                         for (int num = 0; num < Ranking.size(); ++num) {
-                            System.out.println((num+1) + ". " + Ranking.get(num));
+                            System.out.println("#"+(num+1) + ": " + Ranking.get(num));
                         }
                     }
                     break;
@@ -151,8 +160,21 @@ public class MartinezVictorEjercicio1 {
                         }
                     }
                     Ranking.add(score); // Añadimos la puntuación al ránking
-                    System.out.println("Valor explosión:"+score); //Imprime valor de la explosión
+                    System.out.println(ANSI_YELLOW+"Valor explosión:"+score+ANSI_RESET); //Imprime valor de la explosión (En color amarillo)
 
+                    if (end){
+                        System.out.println(ANSI_YELLOW+"Todas las celdas han sido destruidas. Puntuación final:"+ANSI_RESET); //Notificación final de juego
+                        // Utilizamos el bucle para mostrar las puntuaciones finales antes que acabe el programa,
+                        // he considerado que el usuario podría querer saber su puntuación final al poner la última bomba
+                        if (Ranking.isEmpty()){ // Comprobemos que haya valores para evitar errores
+                            System.out.println("No ha habido ninguna explosión.");
+                        }else {
+                            //Usamos un bucle for para mostrar las puntuaciones almacenadas en el ArrayList
+                            for (int num = 0; num < Ranking.size(); ++num) {
+                                System.out.println("#"+(num+1) + ": " + Ranking.get(num));
+                            }
+                        }
+                    }
                     break;
                 case 1: // Mostrar matriz
                     // Usamos dos bucles foreach para imprimir los valores  del array por pantalla
