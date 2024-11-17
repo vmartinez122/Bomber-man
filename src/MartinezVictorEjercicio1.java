@@ -2,12 +2,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-/*
-    Haz un programa en Java que solicite por consola al usuario dos números (filas, columnas) enteros que
-    representarán las filas y columnas que tendrá el terreno del juego. Si el usuario escoge un valor no válido,
-    le indicaremos que este valor es incorrecto y le volveremos a pedir la información.
-*/
-
 public class MartinezVictorEjercicio1 {
     public static void main(String[] args) {
         // Inicialización de clases
@@ -17,7 +11,6 @@ public class MartinezVictorEjercicio1 {
         final String ANSI_RED = "\u001B[31m"; // Color rojo
         final String ANSI_GREEN = "\u001B[32m"; // Color verde
         final String ANSI_YELLOW = "\u001B[33m"; // Color amarillo
-
         final String ANSI_RESET = "\u001B[0m";// Devolver color predeterminado
 
         // Declaración de variables
@@ -82,15 +75,16 @@ public class MartinezVictorEjercicio1 {
             // Menú de acciones
             do { // Utilizamos un bucle para comprobar el formato del valor introducido por el usuario, si es inválido, mostramos el menú
                 System.out.println(""" 
+                                
                                 [3] Ránking
                                 [2] Poner bomba
                                 [1] Mostrar matriz
-                                [0] Salir
-                                """);
+                                [0] Salir""");
                 if (input.hasNextInt()) {
                     action = input.nextInt();
                     if (action >= 0 && action <= 3) { // Si el valor está dentro del rango del menú
                         input.nextLine(); // Limpiamos el búfer
+                        System.out.println(); // Espacio para separar las líneas
                         break;
                     }
                 }
@@ -102,7 +96,7 @@ public class MartinezVictorEjercicio1 {
                     if (Ranking.isEmpty()){ // Validamos que haya algún valor a mostrar
                         System.out.println("No ha habido ninguna explosión.");
                     }else {
-                        System.out.println(ANSI_YELLOW+"Puntuación:"+ANSI_RESET);
+                        System.out.println(ANSI_YELLOW+"Ránking:"+ANSI_RESET);
                         //Usamos un bucle for para mostrar las puntuaciones almacenadas en el ArrayList
                         for (int num = 0; num < Ranking.size(); ++num) {
                             System.out.println("#"+(num+1) + ": " + Ranking.get(num));
@@ -111,6 +105,7 @@ public class MartinezVictorEjercicio1 {
                     break;
                 case 2: // Poner bomba
                     // Pedimos la coordenada X
+                    System.out.println(ANSI_YELLOW+"Poner bomba:"+ANSI_RESET);
                     do { // Utilizamos un bucle para comprobar el formato del valor introducido por el usuario
                         System.out.println("Coordenada X: ");
                         if (input.hasNextInt()) {
@@ -130,7 +125,6 @@ public class MartinezVictorEjercicio1 {
                     // Pedimos la coordenada Y
                     do { // Utilizamos un bucle para comprobar el formato del valor introducido por el usuario
                         System.out.println("Coordenada Y:");
-                        System.out.print((coordX+1)+",");
                         if (input.hasNextInt()) {
                             coordY = input.nextInt();
                             if (coordY >= 1&&coordY<=height) {
@@ -160,7 +154,7 @@ public class MartinezVictorEjercicio1 {
                         }
                     }
                     Ranking.add(score); // Añadimos la puntuación al ránking
-                    System.out.println(ANSI_YELLOW+"Valor explosión:"+score+ANSI_RESET); //Imprime valor de la explosión (En color amarillo)
+                    System.out.println(ANSI_YELLOW+"Valor explosión("+(coordX+1)+","+(coordY+1)+"): "+score+ANSI_RESET); //Imprime valor de la explosión (En color amarillo)
 
                     if (end){
                         System.out.println(ANSI_YELLOW+"Todas las celdas han sido destruidas. Puntuación final:"+ANSI_RESET); //Notificación final de juego
@@ -177,6 +171,7 @@ public class MartinezVictorEjercicio1 {
                     }
                     break;
                 case 1: // Mostrar matriz
+                    System.out.println(ANSI_YELLOW+"Mostrar matriz:"+ANSI_RESET);
                     // Usamos dos bucles foreach para imprimir los valores  del array por pantalla
                     for (int[] row : terrain) {  // El primer bucle, almacena una fila del array2D en un array int por cada iteración
                         for (int elem : row) { // El segundo bucle, itera sobre cada número del array de la fila
@@ -190,6 +185,7 @@ public class MartinezVictorEjercicio1 {
                     }
                     break;
                 case 0: // Salir del programa
+                    System.out.println("Saliendo del programa...");
                     end = true; // Actualiza la varible que interrumpe el bucle principal
                     break;
                 default:
