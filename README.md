@@ -46,7 +46,7 @@ Coordenada X:
 4
 Coordenada Y:
 3
-Valor explosión(4,3): 70
+Valor explosión(4,3): 75
 
 [3] Ránking
 [2] Poner bomba
@@ -55,11 +55,11 @@ Valor explosión(4,3): 70
 1
 
 Mostrar matriz:
-1 3 1 0 3 4 3 7 8 5 
-9 3 5 0 9 8 6 9 8 9 
+1 5 0 5 1 7 4 3 9 1 
+9 1 0 6 3 6 9 5 1 2 
+6 5 0 7 9 4 3 6 2 4 
 0 0 0 0 0 0 0 0 0 0 
-5 1 4 0 3 4 2 6 5 9 
-2 3 2 0 6 1 7 4 2 2 
+5 3 0 9 8 2 4 8 1 4 
 
 [3] Ránking
 [2] Poner bomba
@@ -68,11 +68,13 @@ Mostrar matriz:
 3
 
 Ránking:
-#1: 70
+#1: 75
 
 [3] Ránking
 [2] Poner bomba
 [1] Mostrar matriz
 [0] Salir
 0
+
+Saliendo del programa...
 ```
