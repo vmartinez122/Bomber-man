@@ -144,7 +144,7 @@ public class MartinezVictorEjercicio1 {
                     for (int row=0; row < terrain.length;++row) { // Usamos dos bucles for para recorrer el array 2D
                         for (int col=0; col<terrain[0].length; ++col) {
                             // Si el valor de la columna o la fila es igual a su coordenada correspondiente, cambiaremos ese valor a 0
-                            if(col==coordX||row==coordY){
+                            if(row==coordX||col==coordY){
                                 score += terrain[row][col]; //Sumamos el valor de la posición a la puntuación final
                                 terrain[row][col]= 0;
                             }
